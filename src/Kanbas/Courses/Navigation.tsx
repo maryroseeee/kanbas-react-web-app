@@ -4,7 +4,7 @@ import {useLocation} from "react-router";
 export default function CoursesNavigation() {
         const { pathname } = useLocation();
         return (
-            <div id="wd-courses-navigation" className="wd list-group fs-5 rounded-0">
+            <div id="wd-courses-navigation" className="wd list-group fs-5 rounded-0 pe-2">
                     <Link to="/Kanbas/Courses/1234/Home" id="wd-course-home-link"
                           className={`list-group-item text-danger border border-0
                           ${pathname.includes("Home") ? "list-group-item active" : " "}`}>

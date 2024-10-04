@@ -1,38 +1,86 @@
+import {BsGripVertical} from "react-icons/bs";
+import LessonControlButtons from "../Modules/LessonControlButtons";
+import AssignmentControls from "./AssignmentControls";
+import AssignmentControlButtons from "./AssignmentControlButtons";
+import AssignmentPrefixButtons from "./AssignmentPrefixButtons";
+import {IoEllipsisVertical} from "react-icons/io5";
+
 export default function Assignments() {
     return (
-        <div id="wd-assignments">
-            <input id="wd-search-assignment"
-                   placeholder="Search for Assignments" />
-            <button id="wd-add-assignment-group">+ Group</button>
-            <button id="wd-add-assignment">+ Assignment</button>
-            <h3 id="wd-assignments-title">
-                ASSIGNMENTS 40% of Total <button>+</button>
-            </h3>
-            <ul id="wd-assignment-list">
-                <li className="wd-assignment-list-item">
-                    <a className="wd-assignment-link"
-                       href="#/Kanbas/Courses/1234/Assignments/123">
-                        A1 - ENV + HTML
-                    </a>
-                    <p>Multiple Modules I <b>Not available until</b> May 6 at 12:00am |<br/>
-                        <b>Due</b> May 13 at 11:59pm | 100 pts</p>
+        <div>
+            <br/><AssignmentControls /><br/>
+            <ul id="wd-assignments" className="list-group rounded-0">
+                <li className="wd-assignment-list list-group-item p-0 mb-5 fs-5 border-custom">
+                    <div className="wd-title p-3 ps-2 bg-secondary ">
+                        <BsGripVertical className="me-2 fs-3"/>
+                        Upcoming Assignments
+                        <AssignmentControlButtons/>
+                    </div>
+                    <ul className="wd-assignment-list-item list-group rounded-0">
+                        <li className="wd-assignment-list-item list-group-item p-3 ps-1
+                        completed-assignment-list-item">
+                            <AssignmentPrefixButtons/>
+                            <a className="wd-assignment-link link-dark link-underline-opacity-0"
+                               href="#/Kanbas/Courses/1234/Assignments/123">
+                                A1
+                            </a>
+                            <LessonControlButtons/> <br/>
+                            <ul className="ms-4 text-wrap txt-caption ">
+                                <span className="text-danger"> Multiple Modules </span>
+                                | <span className="fw-bold"> Closed | Due </span>
+                                Sep 24 at 11:59pm | 100/100 pts
+                            </ul>
+                        </li>
+                        <li className="wd-assignment-list-item list-group-item p-3 ps-1
+                        completed-assignment-list-item">
+                            <AssignmentPrefixButtons/>
+                            <a className="wd-assignment-link link-dark link-underline-opacity-0"
+                               href="#/Kanbas/Courses/1234/Assignments/123">
+                                A2
+                            </a>
+                            <LessonControlButtons/>
+                            <ul className="ms-4 text-wrap txt-caption">
+                                <span className="text-danger"> Multiple Modules </span>
+                                | <span className="fw-bold"> Due </span>
+                                 Oct 8 at 11:59pm | -/100 pts
+                            </ul>
+                        </li>
+                        <li className="wd-assignment-list-item list-group-item p-3 ps-1">
+                            <AssignmentPrefixButtons/>
+                            <a className="wd-assignment-link link-dark link-underline-opacity-0"
+                               href="#/Kanbas/Courses/1234/Assignments/123">
+                                A3
+                            </a>
+                            <IoEllipsisVertical className="fs-4 float-end" />
+                            <ul className="ms-4 text-wrap txt-caption">
+                                <span className="text-danger"> Multiple Modules </span>
+                                | <span className="fw-bold"> Not Available Until </span>
+                                Oct 9 at 11:59pm  |
+                                <span className="fw-bold"> Due </span>
+                                Oct 22 at 11:59pm | -/100 pts
+                        </ul>
+                        </li>
+                        <li className="wd-assignment-list-item list-group-item p-3 ps-1">
+                            <AssignmentPrefixButtons/>
+                            <a className="wd-assignment-link link-dark link-underline-opacity-0"
+                               href="#/Kanbas/Courses/1234/Assignments/123">
+                                A4
+                            </a>
+                            <IoEllipsisVertical className="fs-4 float-end" />
+                            <ul className="ms-4 text-wrap txt-caption">
+                                <span className="text-danger"> Multiple Modules </span>
+                                | <span className="fw-bold"> Not Available Until </span>
+                                Oct 13 at 11:59pm  |
+                                <span className="fw-bold"> Due </span>
+                                Nov 5 at 11:59pm | -/100 pts
+                            </ul>
+                        </li>
+                    </ul>
                 </li>
-                <li className="wd-assignment-list-item">
-                    <a className="wd-assignment-link"
-                       href="#/Kanbas/Courses/1234/Assignments/123">
-                        A2 - CSS + BOOTSTRAP
-                    </a>
-                    <p>Multiple Modules I <b>Not available until</b> May 13 at 12:00am |<br/>
-                        <b>Due</b> May 20 at 11:59pm | 100 pts</p>
-                </li>
-                <li className="wd-assignment-list-item">
-                    <a className="wd-assignment-link"
-                       href="#/Kanbas/Courses/1234/Assignments/123">
-                        A2 - JAVASCRIPT + REACT
-                    </a>
-                    <p>Multiple Modules I <b>Not available until</b> May 20 at 12:00am |<br/>
-                        <b>Due</b> May 27 at 11:59pm | 100 pts</p>
-                </li>
+
             </ul>
         </div>
-    );}
+
+
+    );
+}

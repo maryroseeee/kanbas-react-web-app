@@ -5,6 +5,7 @@ import CoursesNavigation from "./Navigation";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import {FaAlignJustify} from "react-icons/fa";
+import PeopleTable from "./People/Table";
 
 export default function Courses() {
     return (
@@ -18,10 +19,15 @@ export default function Courses() {
                 </div>
                 <div className="flex-fill">
                     <Routes>
+                        <Route path="/" element={<Navigate to="Home" />} />
                         <Route path="Home" element={<Home />} />
                         <Route path="Modules" element={<Modules />} />
-                        <Route path="Assignments" element={<Assignments />} />
-                        <Route path="Assignments/:aid" element={<AssignmentEditor />} />
+                        <Route path="Assignments" element={< Assignments/>} />
+                        <Route
+                            path="Assignments/:aid"
+                            element={<AssignmentEditor />}
+                        />
+                        <Route path="People" element={<PeopleTable />} />
                     </Routes>
                 </div></div>
         </div>
