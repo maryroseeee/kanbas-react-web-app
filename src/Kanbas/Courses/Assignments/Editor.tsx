@@ -1,16 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {SlMagnifier} from "react-icons/sl";
 import {IoCalendarOutline} from "react-icons/io5";
+import {useParams} from "react-router";
+import { assignments } from "../../Database";
+
 
 export default function AssignmentEditor() {
+    const { cid, aid } = useParams();
+    const assignment = assignments.find((assignment) => assignment._id === aid);
+
+
+
     return (
         <div className="container mt-4" id="wd-assignments-editor">
             <h2>Edit Assignment</h2>
 
             <div className="mb-3">
                 <label htmlFor="wd-name" className="form-label">Assignment Name</label>
-                <input type="text" id="wd-name" className="form-control" value="A2"/>
+                <input type="text" id="wd-name" className="form-control" value={assignment && assignment.title}/>
             </div>
 
             <div className="mb-3">
@@ -34,7 +41,7 @@ export default function AssignmentEditor() {
                 <div className="row mb-3">
                     <div className="col-md-6">
                         <label id="wd-points" className="form-label">Points</label>
-                        <input type="number" id="wd-points" className="form-control" value={100}/>
+                        <input type="number" id="wd-points" className="form-control" value={assignment && assignment.points}/>
                     </div>
                 </div>
 
@@ -73,31 +80,31 @@ export default function AssignmentEditor() {
                     <div className="col-md-6">
                         <label htmlFor="wd-online-submission" className="form-label">Online Entry Options</label>
                         <div className="form-check" id="wd-online-submission">
-                            <input className="form-check-input" type="radio" id="wd-text-entry"/>
+                            <input className="form-check-input" type="checkbox" id="wd-text-entry"/>
                             <label className="form-check-label">
                                 Text Entry
                             </label>
                         </div>
                         <div className="form-check" id="wd-online-submission">
-                            <input className="form-check-input" type="radio" id="wd-online-submission"/>
+                            <input className="form-check-input" type="checkbox" id="wd-online-submission"/>
                             <label className="form-check-label" id="wd-website-url">
                                 Website URL
                             </label>
                         </div>
                         <div className="form-check" id="wd-online-submission">
-                            <input className="form-check-input" type="radio" id="wd-online-submission"/>
+                            <input className="form-check-input" type="checkbox" id="wd-online-submission"/>
                             <label className="form-check-label" id="wd-media-recordings">
                                 Media Recordings
                             </label>
                         </div>
                         <div className="form-check" id="wd-online-submission">
-                            <input className="form-check-input" type="radio" id="wd-online-submission"/>
+                            <input className="form-check-input" type="checkbox" id="wd-online-submission"/>
                             <label className="form-check-label" id="wd-student-annotations">
                                 Student Annotations
                             </label>
                         </div>
                         <div className="form-check" id="wd-online-submission">
-                            <input className="form-check-input" type="radio" id="wd-online-submission"/>
+                            <input className="form-check-input" type="checkbox" id="wd-online-submission"/>
                             <label className="form-check-label" id="wd-file-upload">
                                 File Upload
                             </label>
@@ -120,10 +127,10 @@ export default function AssignmentEditor() {
                     <div className="col-md-6">
                         <label htmlFor="wd-due-date" className="form-label">Due</label>
                         <div className="input-group">
+                            <input type="date" id="wd-due-date" className="form-control" value={assignment && assignment.ndue} />
                             <span className="input-group-text">
                                 <IoCalendarOutline className="fs-4" />
                             </span>
-                            <input type="date" id="wd-due-date" className="form-control" value="2024-05-13" />
                         </div>
                     </div>
                 </div>
@@ -132,19 +139,21 @@ export default function AssignmentEditor() {
                     <div className="col-md-6">
                         <label htmlFor="wd-available-from" className="form-label">Available From</label>
                         <div className="input-group">
+                            <input type="date" id="wd-available-from" className="form-control"
+                                   value= {assignment && assignment.navailable} />
                             <span className="input-group-text">
                                 <IoCalendarOutline className="fs-4" />
                             </span>
-                            <input type="date" id="wd-available-from" className="form-control" value="2024-05-06" />
                         </div>
                     </div>
                     <div className="col-md-6">
                         <label htmlFor="wd-available-until" className="form-label">Until</label>
                         <div className="input-group">
+                            <input type="date" id="wd-available-until" className="form-control"
+                                   value= {assignment && assignment.ndue} />
                             <span className="input-group-text">
                                 <IoCalendarOutline className="fs-4" />
                             </span>
-                            <input type="date" id="wd-available-until" className="form-control" value="2024-05-30" />
                         </div>
                     </div>
                 </div>
