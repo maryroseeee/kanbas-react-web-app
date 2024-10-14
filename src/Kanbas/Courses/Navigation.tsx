@@ -11,6 +11,7 @@ export default function CourseNavigation() {
         { label: "Zoom", id: "wd-course-zoom-link", path: `/Kanbas/Courses/${cid}/Zoom` },
         { label: "Assignments", id: "wd-course-assignments-link", path: `/Kanbas/Courses/${cid}/Assignments` },
         { label: "Quizzes", id: "wd-course-quizzes-link", path: `/Kanbas/Courses/${cid}/Quizzes` },
+        { label: "Grades", id: "wd-course-people-link", path: `/Kanbas/Courses/${cid}/Grades` },
         { label: "People", id: "wd-course-people-link", path: `/Kanbas/Courses/${cid}/People` },
     ];
 
