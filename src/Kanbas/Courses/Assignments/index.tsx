@@ -1,27 +1,39 @@
-// k/courses/assignments/index.tsx
 import { useParams } from "react-router";
-import * as db from "../../Database";
 import { BsGripVertical } from "react-icons/bs";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import AssignmentPrefixButtons from "./AssignmentPrefixButtons";
-import LessonControlButtons from "../Modules/LessonControlButtons";
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import { addAssignment, editAssignment, updateAssignment, deleteAssignment}
     from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
 import AssignmentIndivButtons from "./AssignmentIndivButtons";
-import {deleteModule, editModule} from "../Modules/reducer";
+import {FaPlus} from "react-icons/fa";
+import {generateAssignmentID} from "./AssignmentIdGenerator";
 
 export default function Assignments() {
     const { cid } = useParams();
     const [assignmentName, setAssignmentName] = useState("");
-    const { assignments } = useSelector((state: any) => state.assignmentReducer);
+    const assignments = useSelector((state: any) => state.assignmentReducer.assignments);
     const dispatch = useDispatch();
+    const newID = generateAssignmentID(cid, 1, assignments);
 
 
     return (
-        <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
+
+        <li className="wd-assignment list-group-item p-0 mb-5 fs-5 border-gray">
+
+            <div id="wd-assignments-controls" className="text-nowrap">
+                <Link
+                    to={`/Kanbas/Courses/${cid}/Assignments/add`}
+                    className="btn btn-danger btn-lg float-end text-decoration-none text-white"
+                >
+                    <FaPlus className="me-2"/>
+                    Assignment
+                </Link>
+            </div>
+
+
             <div className="wd-title p-3 ps-2 bg-secondary">
                 <BsGripVertical className="me-2 fs-3" /> Upcoming Assignments <AssignmentControlButtons />
             </div>

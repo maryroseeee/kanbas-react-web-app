@@ -4,7 +4,8 @@ import {IoCalendarOutline} from "react-icons/io5";
 import {useNavigate, useParams} from "react-router";
 import { assignments } from "../../Database";
 import {useDispatch} from "react-redux";
-import {updateAssignment} from "./reducer";
+import {addAssignment, updateAssignment} from "./reducer";
+import {generateAssignmentID} from "./AssignmentIdGenerator";
 
 
 export default function AssignmentEditor() {
@@ -19,20 +20,36 @@ export default function AssignmentEditor() {
     const [points, setPoints] = useState(assignment?.points || 0);
     const [due, setdue] = useState(assignment?.due || "");
     const [available, setavailable] = useState(assignment?.available || "");
+    const newID = generateAssignmentID(cid, 1, assignments);
+
 
     const handleSave = () => {
-        dispatch(updateAssignment({
-            _id: aid,
-            title,
-            description,
-            points,
-            due,
-            available,
-            course: cid
-        }));
-
+        if (aid) {
+            // Editing existing assignment
+            dispatch(updateAssignment({
+                _id: aid,
+                title,
+                description,
+                points,
+                due: new Date(due).toISOString().split("T")[0],
+                available: new Date(available).toISOString().split("T")[0],
+                course: cid
+            }));
+        } else {
+            dispatch(addAssignment({
+                _id: newID,
+                title,
+                description,
+                points,
+                due: new Date(due).toISOString().split("T")[0],
+                available: new Date(available).toISOString().split("T")[0],
+                course: cid
+            }));
+        }
         navigate(`/Kanbas/Courses/${cid}/Assignments`);
     };
+
+
 
 
 

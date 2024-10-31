@@ -9,7 +9,7 @@ const assignmentsSlice = createSlice({
     reducers: {
         addAssignment: (state, { payload: assignment }) => {
             const newAssignment: any = {
-                _id: "",
+                _id: `${Date.now()}`,  // Example of generating a unique ID
                 title: assignment.title,
                 course: assignment.course,
                 points: assignment.points,
@@ -18,7 +18,7 @@ const assignmentsSlice = createSlice({
                 description: assignment.description,
                 modules: assignment.modules,
             };
-            state.assignments = [...state.assignments, newAssignment] as any;
+            state.assignments.push(newAssignment);
         },
         deleteAssignment: (state, { payload: assignmentId }) => {
             state.assignments = state.assignments.filter(
