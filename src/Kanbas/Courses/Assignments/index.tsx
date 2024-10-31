@@ -5,12 +5,20 @@ import { BsGripVertical } from "react-icons/bs";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import AssignmentPrefixButtons from "./AssignmentPrefixButtons";
 import LessonControlButtons from "../Modules/LessonControlButtons";
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
+import { addAssignment, editAssignment, updateAssignment, deleteAssignment}
+    from "./reducer";
+import { useSelector, useDispatch } from "react-redux";
+import AssignmentIndivButtons from "./AssignmentIndivButtons";
+import {deleteModule, editModule} from "../Modules/reducer";
 
 export default function Assignments() {
     const { cid } = useParams();
-    const assignments = db.assignments;
+    const [assignmentName, setAssignmentName] = useState("");
+    const { assignments } = useSelector((state: any) => state.assignmentReducer);
+    const dispatch = useDispatch();
+
 
     return (
         <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
@@ -35,14 +43,25 @@ export default function Assignments() {
                                             <span className="ms-2 text-start">{assignment.title}</span>
                                         </Link>
                                     </div>
-                                    <LessonControlButtons />
+                                    <AssignmentIndivButtons assignmentId={assignment._id}
+                                                            deleteAssignment={(assignmentId) => {
+                                                                dispatch(deleteAssignment(assignmentId));
+                                                            }} />
                                 </div>
 
                                 <ul className="ms-4 text-wrap txt-caption list-unstyled">
                                     <li>
                                         <span className="text-danger">{assignment.modules}</span> |{" "}
-                                        <span className="fw-bold">Available:</span> {assignment.available} |{" "}
-                                        <span className="fw-bold">Due:</span> {assignment.due} |{" "}
+                                        <span className="fw-bold">Available:</span> {new Date(assignment.available).toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'short',
+                                        day: 'numeric',
+                                    })} at 12:00pm |{" "}
+                                        <span className="fw-bold">Due:</span> {new Date(assignment.due).toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'short',
+                                        day: 'numeric',
+                                    })} at 11:59pm |{" "}
                                         <span className="fw-bold">{assignment.points} pts</span>
                                     </li>
                                 </ul>

@@ -1,35 +1,21 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import * as db from "./Database";
-export default function Dashboard() {
-    const [courses, setCourses] = useState<any[]>(db.courses);
-    const [course, setCourse] = useState<any>({
-        _id: "0", name: "New Course", number: "New Number",
-        startDate: "2023-09-10", endDate: "2023-12-15",
-        image: "/images/reactjs.jpg", description: "New Description"
-    });
-    const deleteCourse = (courseId: string) => {
-        setCourses(courses.filter((course) => course._id !== courseId));
-    };
-
-    const addNewCourse = () => {
-        const newCourse = { ...course,
-            _id: new Date().getTime().toString() };
-        setCourses([...courses, { ...course, ...newCourse }]);
-    };
-
-    const updateCourse = () => {
-        setCourses(
-            courses.map((c) => {
-                if (c._id === course._id) {
-                    return course;
-                } else {
-                    return c;
-                }
-            })
-        );
-    };
-
+export default function Dashboard ({
+    courses,
+    course,
+    setCourse,
+    addNewCourse,
+    deleteCourse,
+    updateCourse,
+    }: {
+    courses: any[];
+    course: any;
+    setCourse: (course: any) => void;
+    addNewCourse: () => void;
+    deleteCourse: (course: any) => void;
+    updateCourse: () => void;
+}) {
     return (
         <div className="p-4" id="wd-dashboard">
             <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
@@ -62,7 +48,7 @@ export default function Dashboard() {
                                         <p className="wd-dashboard-course-title card-text overflow-y-hidden" style={{ maxHeight: 100 }}>
                                             {course.description} </p>
                                         <div className="justify-content-between d-flex">
-                                        <button className="btn btn-primary"> Go </button>
+                                            <button className="btn btn-primary"> Go </button>
                                             <button id="wd-edit-course-click"
                                                     onClick={(event) => {
                                                         event.preventDefault();
@@ -73,13 +59,13 @@ export default function Dashboard() {
                                             </button>
 
                                             <button onClick={(event) => {
-                                            event.preventDefault();
-                                            deleteCourse(course._id);
-                                        }} className="btn btn-danger float-end"
-                                                id="wd-delete-course-click">
-                                            Delete
-                                        </button>
-                                    </div>
+                                                event.preventDefault();
+                                                deleteCourse(course._id);
+                                            }} className="btn btn-danger float-end"
+                                                    id="wd-delete-course-click">
+                                                Delete
+                                            </button>
+                                        </div>
                                     </div>
                                 </Link>
                             </div>
@@ -89,3 +75,4 @@ export default function Dashboard() {
             </div>
         </div>
     );}
+

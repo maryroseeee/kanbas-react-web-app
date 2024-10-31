@@ -8,6 +8,7 @@ export default function AssignmentControlButtons() {
         <div className="float-end">
             <button className="btn btn-percentage me-3">
                 50% of Total</button>
+
             <GreenCheckmark />
             <BsPlus className="fs-4 mx-2" />
             <IoEllipsisVertical className="fs-4" />
