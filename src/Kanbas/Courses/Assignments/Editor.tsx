@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {IoCalendarOutline} from "react-icons/io5";
-import {useParams} from "react-router";
+import {useNavigate, useParams} from "react-router";
 import { assignments } from "../../Database";
 import {useDispatch} from "react-redux";
 import {updateAssignment} from "./reducer";
@@ -11,6 +11,7 @@ export default function AssignmentEditor() {
     const { cid, aid } = useParams();
     const assignment = assignments.find((assignment) => assignment._id === aid);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     // Initialize state with assignment values
     const [title, setTitle] = useState(assignment?.title || "");
@@ -20,7 +21,6 @@ export default function AssignmentEditor() {
     const [available, setavailable] = useState(assignment?.available || "");
 
     const handleSave = () => {
-        // Dispatch updated assignment data
         dispatch(updateAssignment({
             _id: aid,
             title,
@@ -30,7 +30,11 @@ export default function AssignmentEditor() {
             available,
             course: cid
         }));
+
+        navigate(`/Kanbas/Courses/${cid}/Assignments`);
     };
+
+
 
     return (
         <div className="container mt-4" id="wd-assignments-editor">
@@ -62,7 +66,7 @@ export default function AssignmentEditor() {
             </div>
 
             <div className="d-flex justify-content-end mb-3">
-                <button className="btn btn-secondary me-2">Cancel</button>
+                <button className="btn btn-secondary me-2" onClick={() => navigate(`/Kanbas/Courses/${cid}/Assignments`)}>Cancel</button>
                 <button className="btn btn-danger" onClick={handleSave}>Save</button>
             </div>
         </div>
