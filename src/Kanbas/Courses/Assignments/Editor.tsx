@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {IoCalendarOutline} from "react-icons/io5";
-import {useNavigate, useParams} from "react-router";
+import {useLocation, useNavigate, useParams} from "react-router";
 import { assignments } from "../../Database";
 import {useDispatch} from "react-redux";
 import {addAssignment, updateAssignment} from "./reducer";
@@ -19,28 +19,31 @@ export default function AssignmentEditor() {
     const [description, setDescription] = useState(assignment?.description || "");
     const [points, setPoints] = useState(assignment?.points || 0);
     const [due, setdue] = useState(assignment?.due || "");
+    const [modules, setModules] = useState(assignment?.modules || "");
     const [available, setavailable] = useState(assignment?.available || "");
     const newID = generateAssignmentID(cid, 1, assignments);
-
+    const { pathname } = useLocation();
 
     const handleSave = () => {
-        if (aid) {
+        if (pathname.includes("new")) {
             // Editing existing assignment
             dispatch(updateAssignment({
                 _id: aid,
                 title,
                 description,
                 points,
+                modules,
                 due: new Date(due).toISOString().split("T")[0],
                 available: new Date(available).toISOString().split("T")[0],
                 course: cid
             }));
         } else {
             dispatch(addAssignment({
-                _id: newID,
+                _id: generateAssignmentID(cid, modules, assignments),
                 title,
                 description,
                 points,
+                modules,
                 due: new Date(due).toISOString().split("T")[0],
                 available: new Date(available).toISOString().split("T")[0],
                 course: cid
@@ -70,6 +73,11 @@ export default function AssignmentEditor() {
             <div className="mb-3">
                 <label htmlFor="wd-points" className="form-label">Points</label>
                 <input type="number" id="wd-points" className="form-control" value={points} onChange={(e) => setPoints(Number(e.target.value))} />
+            </div>
+
+            <div className="mb-3">
+                <label htmlFor="wd-module-number" className="form-label">Module Number</label>
+                <input type="number" id="wd-module-number" className="form-control" value={modules} onChange={(e) => setModules(e.target.value)} />
             </div>
 
             <div className="mb-3">
