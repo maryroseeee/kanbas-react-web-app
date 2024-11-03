@@ -21,18 +21,17 @@ export default function Assignments() {
 
     return (
 
-        <li className="wd-assignment list-group-item p-0 mb-5 fs-5 border-gray">
+        <li className="wd-assignment list-group-item p-0 mb-2 fs-5 border-gray">
 
-            <div id="wd-assignments-controls" className="text-nowrap">
+            <div className="d-flex justify-content-end mb-2">
                 <Link
                     to={`/Kanbas/Courses/${cid}/Assignments/add`}
-                    className="btn btn-danger btn-lg float-end text-decoration-none text-white"
+                    className="btn btn-danger btn-lg text-decoration-none text-white"
                 >
-                    <FaPlus className="me-2"/>
+                    <FaPlus className="me-2" />
                     Assignment
                 </Link>
             </div>
-
 
             <div className="wd-title p-3 ps-2 bg-secondary">
                 <BsGripVertical className="me-2 fs-3" /> Upcoming Assignments <AssignmentControlButtons />
@@ -63,7 +62,7 @@ export default function Assignments() {
 
                                 <ul className="ms-4 text-wrap txt-caption list-unstyled">
                                     <li>
-                                        <span className="text-danger">{assignment.modules}</span> |{" "}
+                                        <span className="text-danger">{"Module " + assignment.modules}</span> |{" "}
                                         <span className="fw-bold">Available:</span> {new Date(assignment.available + 'T00:00:00').toLocaleDateString('en-US', {
                                         year: 'numeric',
                                         month: 'short',
