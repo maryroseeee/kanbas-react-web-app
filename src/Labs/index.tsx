@@ -11,6 +11,7 @@ export default function Labs() {
     return (
         <Provider store={store}>
             <div className="container-fluid">
+                <h1> Maryrose Deciutiis</h1>
                 <TOC />
                 <h1>Welcome to Web Dev!!</h1>
                 <h1>Labs</h1>
