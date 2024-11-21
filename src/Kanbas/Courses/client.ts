@@ -25,4 +25,6 @@ export const createModuleForCourse = async (courseId: string, module: any) => {
         `${COURSES_API}/${courseId}/modules`,
         module
     );
+    return response.data;
 };
+

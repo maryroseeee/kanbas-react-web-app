@@ -10,6 +10,7 @@ const enrollmentSlice = createSlice({
     name: "enrollments",
     initialState,
     reducers: {
+        
         enrollCourse: (state, action: PayloadAction<{ user: string; cid: string }>) => {
             const { user, cid } = action.payload;
             const newEnrollment = {

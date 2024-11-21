@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {IoCalendarOutline} from "react-icons/io5";
+import * as assignmentsClient from "./client";
 import {useLocation, useNavigate, useParams} from "react-router";
 import { assignments } from "../../Database";
 import {useDispatch, useSelector} from "react-redux";
 import {addAssignment, updateAssignment, setAssignment} from "./reducer";
+import * as coursesClient from "../client";
+import {addModule} from "../Modules/reducer";
 
 
 export default function AssignmentEditor() {
@@ -40,6 +42,8 @@ export default function AssignmentEditor() {
         }
         navigate(`/Kanbas/Courses/${cid}/Assignments`);
     };
+
+
 
 
 
