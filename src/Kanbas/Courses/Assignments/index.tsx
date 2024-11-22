@@ -4,14 +4,15 @@ import AssignmentControlButtons from "./AssignmentControlButtons";
 import AssignmentPrefixButtons from "./AssignmentPrefixButtons";
 import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
-import { deleteAssignment, setAssignment}
+import { deleteAssignment, setAssignment, setAssignments}
     from "./reducer";
 import { useSelector, useDispatch } from "react-redux";
 import AssignmentIndivButtons from "./AssignmentIndivButtons";
 import {FaPlus} from "react-icons/fa";
 import * as assignmentsClient from "./client";
 import LessonControlButtons from "../Modules/LessonControlButtons";
-import {assignments} from "../../Database";
+import * as coursesClient from "../client";
+
 
 export default function Assignments() {
     const { cid } = useParams();
@@ -24,8 +25,8 @@ export default function Assignments() {
     };
 
     const fetchAssignments = async () => {
-        const assignments = await assignmentsClient.findAssignmentsForCourse(cid as string);
-        dispatch(setAssignment(assignments));
+        const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
+        dispatch(setAssignments(assignments));
     };  useEffect(() => {
         fetchAssignments();
     }, [])
@@ -39,7 +40,7 @@ export default function Assignments() {
         <li className="wd-assignment list-group-item p-0 mb-2 fs-5 border-gray">
 
             <div className="d-flex justify-content-end mb-2">
-                {currentUser.role === "FACULTY" && ( // Only render ModulesControls if user is FACULTY
+                {currentUser.role === "FACULTY" && (
                     <Link
                         to={`/Kanbas/Courses/${cid}/Assignments/add`}
                         className="btn btn-danger btn-lg text-decoration-none text-white"

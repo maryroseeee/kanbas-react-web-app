@@ -52,7 +52,7 @@ export default function Modules() {
             )}
             {modules
                 .map((module: any) => (
-                    <li key={module._id} className="wd-module list-group-item p-0 mb-2 fs-5 mt-4 border-gray">
+                     <li key={module._id} className="wd-module list-group-item p-0 mb-2 fs-5 mt-4 border-gray">
                         <div className="wd-title p-3 ps-2 bg-secondary ">
                             <BsGripVertical className="me-2 fs-3" />
                             {!module.editing && module.name}

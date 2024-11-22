@@ -6,7 +6,6 @@ import { assignments } from "../../Database";
 import {useDispatch, useSelector} from "react-redux";
 import {addAssignment, updateAssignment, setAssignment} from "./reducer";
 import * as coursesClient from "../client";
-import {addModule} from "../Modules/reducer";
 
 
 export default function AssignmentEditor() {
@@ -34,18 +33,17 @@ export default function AssignmentEditor() {
             }
         }
     }, [aid, dispatch]);
-    const handleSave = () => {
+    const handleSave = async () => {
         if (pathname.includes("add")){
-            dispatch(addAssignment({...assignment, course: cid}));
+            if (!cid) return;
+            const newAssignment = await coursesClient.createAssignmentForCourse(cid, assignment);
+            dispatch(addAssignment({...assignment}));
         } else {
-            dispatch(updateAssignment(assignment))
+            await assignmentsClient.updateAssignment(assignment);
+            dispatch((updateAssignment(assignment)));
         }
         navigate(`/Kanbas/Courses/${cid}/Assignments`);
     };
-
-
-
-
 
     return (
         <div className="container mt-4" id="wd-assignments-editor">
