@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { enrollCourse, unenrollCourse, setEnrollments } from "./reducer";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
@@ -53,17 +52,10 @@ export default function Enroll({
             (enrollment: any) =>
                 enrollment.user === currentUser._id && enrollment.course === courseId
         );
-        if (!enrollment) {
-            return;
-        }
 
-        try {
             await enrollmentsClient.deleteEnrollment(enrollment._id);
             dispatch(unenrollCourse(enrollment._id));
             await fetchCourses();
-        } catch (error) {
-            console.error("Error unenrolling from course:", error);
-        }
     };
 
 
