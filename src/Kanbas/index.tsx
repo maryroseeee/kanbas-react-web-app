@@ -33,11 +33,12 @@ export default function Kanbas() {
         _id: "1234", name: "New Course", number: "New Number",
         startDate: "2023-09-10", endDate: "2023-12-15", description: "New Description",
     });
-    const addNewCourse = () => {
-        const newCourse = { ...course, _id: new Date().getTime().toString() };
+    const addNewCourse = async  () => {
+        const newCourse = await courseClient.createCourse(course);
         setCourses([...courses, { ...course, ...newCourse }]);
     };
-    const deleteCourse = (courseId: string) => {
+    const deleteCourse = async (courseId: string) => {
+        const status = await courseClient.deleteCourse(courseId);
         setCourses(courses.filter((course) => course._id !== courseId));
     };
     const updateCourse = () => {

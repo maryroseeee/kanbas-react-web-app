@@ -26,4 +26,3 @@ export default function Signin() {
             <Link id="wd-signup-link" to="/Kanbas/Account/Signup"> Sign up </Link>
         </div>
     );}
-
