@@ -74,6 +74,12 @@ export const createUser = async (user: any) => {
     return response.data;
 };
 
+export const enrollIntoCourse = async (userId: string, courseId: string) => {
+    const response = await axiosWithCredentials.post(
+        `${USERS_API}/${userId}/courses/${courseId}`
+    );
+    return response.data;
+};
 
 
 
