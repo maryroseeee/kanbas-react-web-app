@@ -19,15 +19,23 @@ export default function Kanbas() {
 
     const fetchCourses = async () => {
         try {
-            const courses = await userClient.findEnrollmentsForUser(currentUser._id);
+            const allCourses = await courseClient.fetchAllCourses();
+            const enrolledCourses = await userClient.findEnrollmentsForUser(
+                currentUser._id
+            );
+            const courses = allCourses.map((course: any) => {
+                if (enrolledCourses.find((c: any) => c._id === course._id)) {
+                    return { ...course, enrolled: true };
+                } else {
+                    return course;
+                }
+            });
             setCourses(courses);
         } catch (error) {
             console.error(error);
         }
     };
-    useEffect(() => {
-        fetchCourses();
-    }, [currentUser]);
+
 
 
     const [course, setCourse] = useState<any>({
@@ -68,6 +76,7 @@ export default function Kanbas() {
                                 <Dashboard
                                     courses={courses}
                                     course={course}
+                                    setCourses={setCourses}
                                     setCourse={setCourse}
                                     addNewCourse={addNewCourse}
                                     deleteCourse={deleteCourse}

@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import * as db from "./Database";
 import {useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 import {FaPlus} from "react-icons/fa";
+import * as courseClient from "./Courses/client";
+import * as userClient from "./Account/client";
+
 export default function Dashboard({
                                       courses,
                                       course,
+    setCourses,
                                       setCourse,
                                       addNewCourse,
                                       deleteCourse,
@@ -13,6 +17,7 @@ export default function Dashboard({
                                   }: {
     courses: any[];
     course: any;
+    setCourses: (courses: any) => void;
     setCourse: (course: any) => void;
     addNewCourse: () => void;
     deleteCourse: (course: any) => void;
@@ -20,6 +25,10 @@ export default function Dashboard({
 }) {
 
     const { currentUser } = useSelector((state: any) => state.accountReducer);
+
+
+
+
     return (
         <div className="p-4" id="wd-dashboard">
             <h1 id="wd-dashboard-title">Dashboard</h1> <hr />

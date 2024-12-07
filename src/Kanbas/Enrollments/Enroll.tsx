@@ -27,7 +27,7 @@ export default function Enroll({
     };
 
     const fetchEnrollments = async () => {
-        const enrollments = await userClient.findEnrollmentsForUser(currentUser._id);
+        const enrollments = await userClient.findEnrollmentsInEnrollments(currentUser._id);
         dispatch(setEnrollments(enrollments));
     };
 
@@ -61,9 +61,14 @@ export default function Enroll({
 
 
     const handleEnroll = async (user_id: string, course_id: string) => {
-        const newEnrollment = await userClient.enrollIntoCourse(user_id, course_id);
-        dispatch(enrollCourse(newEnrollment));
+        const newEnrollment = {
+            user: user_id,
+            course: course_id,
+        }
+        const enrollment = await userClient.createEnrollment(newEnrollment);
+        dispatch(enrollCourse(enrollment));
         await fetchCourses();
+
     };
 
 
