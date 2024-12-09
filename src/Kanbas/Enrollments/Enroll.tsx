@@ -4,18 +4,30 @@ import React, { useEffect, useState } from "react";
 import * as enrollmentsClient from "./client";
 import * as userClient from "../Account/client";
 import * as coursesClient from "../Courses/client";
+import { useNavigate } from "react-router";
+import {current} from "@reduxjs/toolkit";
 
 export default function Enroll({
                                    courses,
                                    setCourses,
+                                   enrolling,
+                                   setEnrolling,
+                                   updateEnrollment
                                }: {
     courses: any[];
     setCourses: (courses: any) => void;
+    enrolling: boolean;
+    setEnrolling: (enrolling: boolean) => void;
+    updateEnrollment: (courseId: string, enrolled: boolean) => void
 }) {
+    const navigator = useNavigate();
     const dispatch = useDispatch();
-    const { currentUser } = useSelector((state: any) => state.accountReducer);
     const { enrollments } = useSelector((state: any) => state.enrollReducer);
+    const { currentUser } = useSelector((state: any) => state.accountReducer);
+
     const [allCourses, setAllCourses] = useState<any[]>([]);
+    const [enrollmentCourses, setEnrollmentsCourses] = useState<any[]>([]);
+
 
     const fetchAllCourses = async () => {
         const allCourses = await coursesClient.fetchAllCourses();
@@ -27,7 +39,7 @@ export default function Enroll({
     };
 
     const fetchEnrollments = async () => {
-        const enrollments = await userClient.findEnrollmentsInEnrollments(currentUser._id);
+        const enrollments = await userClient.findEnrollmentsForUser(currentUser._id);
         dispatch(setEnrollments(enrollments));
     };
 
@@ -41,33 +53,37 @@ export default function Enroll({
     }, [currentUser]);
 
     const isEnrolled = (courseId: string) => {
-        return enrollments.some(
-            (enrollment: { user: any; course: any }) =>
-                enrollment.course === courseId && enrollment.user === currentUser._id
+        const enrolled = enrollments.some(
+            (enrollment: any) => enrollment.user === currentUser._id && enrollment.course === courseId
         );
+        return enrolled;
     };
 
-    const handleUnenroll = async (courseId: string) => {
+    const handleUnenroll = async (course_id: string) => {
+        const user_id = currentUser._id;
         const enrollment = enrollments.find(
             (enrollment: any) =>
-                enrollment.user === currentUser._id && enrollment.course === courseId
+                enrollment.user === currentUser._id && enrollment.course === course_id
         );
+        await userClient.unenrollFromCourse(user_id, course_id);
+        dispatch(unenrollCourse(enrollment._id));
 
-            await enrollmentsClient.deleteEnrollment(enrollment._id);
-            dispatch(unenrollCourse(enrollment._id));
-            await fetchCourses();
+        await fetchCourses();
     };
 
 
-
-    const handleEnroll = async (user_id: string, course_id: string) => {
+    const enrollUser = async (user_id: string, course_id: string) => {
         const newEnrollment = {
             user: user_id,
             course: course_id,
         }
-        const enrollment = await userClient.createEnrollment(newEnrollment);
+        const enrollment = await userClient.enrollIntoCourse(user_id, course_id);
+        //navigator(-1);
         dispatch(enrollCourse(enrollment));
+        const newEnrollments = await userClient.updateEnrollment(user_id, course_id, enrollment);
+        setEnrollmentsCourses(newEnrollments);
         await fetchCourses();
+
 
     };
 
@@ -90,8 +106,8 @@ export default function Enroll({
                                             style={{ maxHeight: 100 }}
                                         >
                                             {course.description}
-                                        </p>
 
+                                        </p>
                                         {isEnrolled(course._id) ? (
                                             <button
                                                 className="btn btn-danger"
@@ -102,7 +118,7 @@ export default function Enroll({
                                         ) : (
                                             <button
                                                 className="btn btn-success"
-                                                onClick={() => handleEnroll(currentUser._id, course._id)}
+                                                onClick={() => enrollUser(currentUser._id, course._id)}
                                             >
                                                 Enroll
                                             </button>

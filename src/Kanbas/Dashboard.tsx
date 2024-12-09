@@ -1,37 +1,43 @@
 import React, {useEffect, useState} from "react";
-import * as db from "./Database";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 import {FaPlus} from "react-icons/fa";
-import * as courseClient from "./Courses/client";
-import * as userClient from "./Account/client";
+import {setEnrollments} from "./Enrollments/reducer";
 
 export default function Dashboard({
                                       courses,
                                       course,
-    setCourses,
                                       setCourse,
                                       addNewCourse,
                                       deleteCourse,
                                       updateCourse,
+                                      enrolling,
+                                      setEnrolling,
+                                      updateEnrollment
                                   }: {
     courses: any[];
     course: any;
-    setCourses: (courses: any) => void;
     setCourse: (course: any) => void;
     addNewCourse: () => void;
     deleteCourse: (course: any) => void;
     updateCourse: () => void;
+    enrolling: boolean;
+    setEnrolling: (enrolling: boolean) => void;
+    updateEnrollment: (courseId: string, enrolled: boolean) => void
 }) {
+    const dispatch = useDispatch();
+    const { enrollments } = useSelector((state: any) => state.enrollReducer);
 
     const { currentUser } = useSelector((state: any) => state.accountReducer);
-
-
-
-
+    useEffect(() => {
+        if (currentUser.role === "FACULTY") {
+            setEnrolling(false);
+        }
+    }, [currentUser, setEnrolling]);
     return (
         <div className="p-4" id="wd-dashboard">
             <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
+
 
             {currentUser.role === "FACULTY" ? (
                 <>
@@ -51,21 +57,15 @@ export default function Dashboard({
                               onChange={(e) => setCourse({ ...course, description: e.target.value }) } /><hr />
                 </>
             ) : (
-                <Link
-                    to={`/Kanbas/Dashboard/Enroll`}
-                    className="text-decoration-none text-black"
+                <button
+                    onClick={() => setEnrolling(!enrolling)}
+                    className="float-end btn btn-primary"
                 >
-                    <button className="btn btn-primary float-end"
-                            id="wd-add-new-course-click"
-                            onClick={addNewCourse}> Enrollments </button>
-                </Link>
+                    {enrolling ? "My Courses" : "All Courses"}
+                </button>
 
 
             )}
-
-
-
-
             <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2> <hr />
             <div id="wd-dashboard-courses" className="row">
                 <div className="row row-cols-1 row-cols-md-5 g-4">
@@ -77,11 +77,24 @@ export default function Dashboard({
                                     <img src="/images/reactjs.jpg" width="100%" height={160} />
                                     <div className="card-body">
                                         <h5 className="wd-dashboard-course-title card-title">
-                                            {course.name} </h5>
+
+                                            {course.name}
+                                        </h5>
                                         <p className="wd-dashboard-course-title card-text overflow-y-hidden" style={{ maxHeight: 100 }}>
                                             {course.description} </p>
                                         <div className="justify-content-between d-flex">
                                             <button className="btn btn-primary"> Go </button>
+                                            {enrolling && (
+                                                <button
+                                                    className={`btn ${ course.enrolled ? "btn-danger" : "btn-success" } float-end ms-2 `}
+                                                    onClick={(event) => {
+                                                        event.preventDefault();
+                                                        updateEnrollment(course._id, !course.enrolled);
+                                                        dispatch(setEnrollments(enrollments));
+                                                    }}>
+                                                    {course.enrolled ? "Unenroll" : "Enroll"}
+                                                </button>
+                                            )}
 
                                             {currentUser.role === "FACULTY" && (
                                                 <>
