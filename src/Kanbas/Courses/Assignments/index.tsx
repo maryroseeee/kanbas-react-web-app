@@ -89,12 +89,12 @@ export default function Assignments() {
                                 <ul className="ms-4 text-wrap txt-caption list-unstyled">
                                     <li>
                                         <span className="text-danger">{"Module " + assignment.modules}</span> |{" "}
-                                        <span className="fw-bold">Available:</span> {new Date(assignment.available + 'T00:00:00').toLocaleDateString('en-US', {
+                                        <span className="fw-bold">Available:</span> {new Date(assignment.available).toLocaleDateString('en-US', {
                                         year: 'numeric',
                                         month: 'short',
                                         day: 'numeric',
                                     })} at 12:00pm |{" "}
-                                        <span className="fw-bold">Due:</span> {new Date(assignment.due + 'T23:59:59').toLocaleDateString('en-US', {
+                                        <span className="fw-bold">Due:</span> {new Date(assignment.due).toLocaleDateString('en-US', {
                                         year: 'numeric',
                                         month: 'short',
                                         day: 'numeric',
